@@ -1,0 +1,49 @@
+
+= mk_man(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: mk_man Manual
+:man source: mk_man 1.0.0
+:page-layout: base
+
+== NAME
+
+mk_man - creates man pages
+using imbedded `here doc` written in `asciidoc`
+
+== SYNOPSIS
+
+*mk_man* _FILE_
+
+== DESCRIPTION
+
+The *mk_man(1)* command
+extracts imbedded `here doc`
+in a shell script _FILE_
+and converts it to man pages.
+
+== EXAMPLE
+
+[source, bash]
+----
+mk_man aur_install
+----
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+

@@ -1,0 +1,89 @@
+#!/usr/bin/env sh
+
+: <<'END_OF_DOCS'
+
+= os_check(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: os_check Manual
+:man source: os_check 1.0.0
+:page-layout: base
+
+== NAME
+
+os_check - checks the operating system
+
+== SYNOPSIS
+
+*os_check*
+
+== DESCRIPTION
+
+The *os_check(1)* command
+checks the operating system.
+
+*1*::
+  GNU/Linux
+
+*2*::
+  Mac OSX
+
+*3*::
+  Cygwin
+
+*4*::
+  MSYS
+
+*5*::
+  Win 32
+
+*6*::
+  FreeBSD
+
+*999*::
+  Unknown
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+
+END_OF_DOCS
+
+if [ "$OSTYPE" == "linux-gnu" ]; then
+	OSTYPECODE=1
+	# GNU/Linux
+elif [ "$OSTYPE" == "darwin"* ]; then
+	OSTYPECODE=2
+	# Mac OSX
+elif [ "$OSTYPE" == "cygwin" ]; then
+        OSTYPECODE=3
+	# Cygwin
+elif [ "$OSTYPE" == "msys" ]; then
+        OSTYPECODE=4
+	# MSYS
+elif [ "$OSTYPE" == "win32" ]; then
+	OSTYPECODE=5
+	# Win 32
+elif [ "$OSTYPE" == "freebsd"* ]; then
+        OSTYPECODE=6
+	# FreeBSD
+else
+	OSTYPECODE=999
+	# Unknown
+fi
+
+echo "$OSTYPECODE"

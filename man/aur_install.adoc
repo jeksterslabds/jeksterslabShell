@@ -1,0 +1,115 @@
+
+= aur_install(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: aur_install Manual
+:man source: aur_install 1.0.0
+:page-layout: base
+
+== NAME
+
+aur_install - installs AUR packages from a text file
+
+== SYNOPSIS
+
+*aur_install* [_OPTIONS_] _FILE_
+
+== DESCRIPTION
+
+The *aur_install(1)* command
+reads in a list of packages
+from a text _FILE_ 
+selects AUR packages
+(has the text `AUR` in the same line)
+and installs them.
+
+== OPTIONS
+
+*-f*::
+  By default,
+  if the listed packages are already installed,
+  the program skips the installation.
+  You can force install all listed packages by using this option.
+  
+*-c*::
+  Cleans the system by removing orphan packages and
+  packages that are no longer installed from the cache
+  as well as currently unused sync databases.
+  
+*-d*::
+  Deep cleans the system by removing orphan packages and
+  all files from the cache.
+
+== EXAMPLES
+
+`packages` correspond to a _FILE_ containing a list of packages for example.
+In the case below,
+only `rstudio-server-bin` and `google-chrome`
+will be installed.
+`geany` and `firefox` will be ignored.
+
+[source, bash]
+----
+# ide
+rstudio-server-bin,AUR
+geany
+# browser
+firefox
+google-chrome,AUR
+----
+
+=== Default
+
+Install only packages that are not yet installed.
+
+[source, bash]
+----
+aur_install packages
+----
+
+=== Force
+
+Install all packages.
+This reinstalls packages that are already installed.
+
+[source, bash]
+----
+aur_install -f packages
+----
+
+=== Clean
+
+Clean orphan packages and package cache.
+
+[source, bash]
+----
+aur_install -c packages
+----
+
+=== Deep clean
+
+Clean orphan packages and empty package cache.
+
+[source, bash]
+----
+aur_install -d packages
+----
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+

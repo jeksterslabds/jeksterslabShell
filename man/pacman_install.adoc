@@ -1,0 +1,114 @@
+
+= pacman_install(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: pacman_install Manual
+:man source: pacman_install 1.0.0
+:page-layout: base
+
+== NAME
+
+pacman_install - installs official Arch Linux packages from a text file
+
+== SYNOPSIS
+
+*pacman_install* [_OPTIONS_] _FILE_
+
+== DESCRIPTION
+
+The *pacman_install(1)* command
+reads in a list of official Arch Linux packages
+from a text _FILE_ and installs them.
+Note that packages that has the text `AUR` in the same line
+will be ignored.
+
+== OPTIONS
+
+*-f*::
+  By default,
+  if the listed packages are already installed,
+  the program skips the installation.
+  You can force install all listed packages by using this option.
+  
+*-c*::
+  Cleans the system by removing orphan packages and
+  packages that are no longer installed from the cache
+  as well as currently unsed sync databases.
+  
+*-d*::
+  Deep cleans the system by removing orphan packages and
+  all files from the cache.
+
+== EXAMPLES
+
+`packages` correspond to _FILE_ containing a list of packages for example.
+
+In the case below,
+only `geany` and `firefox` 
+will be installed.
+`rstudio-server-bin` and `google-chrome` will be ignored.
+
+[source, bash]
+----
+# ide
+rstudio-server-bin,AUR
+geany
+# browser
+firefox
+google-chrome,AUR
+----
+
+=== Default
+
+Install only packages that are not yet installed in the system.
+
+[source, bash]
+----
+pacman_install packages
+----
+
+=== Force
+
+Install all packages in the system.
+
+[source, bash]
+----
+pacman_install -f packages
+----
+
+=== Clean
+
+Clean orphan packages and package cache.
+
+[source, bash]
+----
+pacman_install -c packages
+----
+
+=== Deep clean
+
+Clean orphan packages and empty package cache.
+
+[source, bash]
+----
+pacman_install -d packages
+----
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+

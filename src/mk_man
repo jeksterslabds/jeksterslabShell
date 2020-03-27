@@ -1,0 +1,80 @@
+#!/usr/bin/env sh
+
+: <<'END_OF_DOCS'
+
+= mk_man(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: mk_man Manual
+:man source: mk_man 1.0.0
+:page-layout: base
+
+== NAME
+
+mk_man - creates man pages
+using imbedded `here doc` written in `asciidoc`
+
+== SYNOPSIS
+
+*mk_man* _FILE_
+
+== DESCRIPTION
+
+The *mk_man(1)* command
+extracts imbedded `here doc`
+in a shell script _FILE_
+and converts it to man pages.
+
+== EXAMPLE
+
+[source, bash]
+----
+mk_man aur_install
+----
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+
+END_OF_DOCS
+
+###########################################################################################
+# Usage
+###########################################################################################
+
+usage () {
+	echo "Usage: $0 FILE"
+	echo "  where FILE is a shell script file."
+	exit 1
+}
+
+# test the existence of input file
+
+[ -z "$1" ] && usage
+
+###########################################################################################
+# Main
+###########################################################################################
+
+NAME="$(basename -- "$1")"
+
+NUMBER="$(grep "=[[:space:]]$NAME" $1 | sed 's/.*\([1-9]\).*/\1/')"
+
+sed -n "/: <<'END_OF_DOCS'/,/END_OF_DOCS/p" "$1" | \
+ sed "/: <<'END_OF_DOCS'/d; /END_OF_DOCS/d" > "${NAME}.adoc"
+asciidoctor "${NAME}.adoc" -b manpage
+man -t "./${NAME}.${NUMBER}" | ps2pdf - "${NAME}.pdf"

@@ -1,0 +1,225 @@
+#!/usr/bin/env sh
+
+: <<'END_OF_DOCS'
+
+= aur_install(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: aur_install Manual
+:man source: aur_install 1.0.0
+:page-layout: base
+
+== NAME
+
+aur_install - installs AUR packages from a text file
+
+== SYNOPSIS
+
+*aur_install* [_OPTIONS_] _FILE_
+
+== DESCRIPTION
+
+The *aur_install(1)* command
+reads in a list of packages
+from a text _FILE_ 
+selects AUR packages
+(has the text `AUR` in the same line)
+and installs them.
+
+== OPTIONS
+
+*-f*::
+  By default,
+  if the listed packages are already installed,
+  the program skips the installation.
+  You can force install all listed packages by using this option.
+  
+*-c*::
+  Cleans the system by removing orphan packages and
+  packages that are no longer installed from the cache
+  as well as currently unused sync databases.
+  
+*-d*::
+  Deep cleans the system by removing orphan packages and
+  all files from the cache.
+
+== EXAMPLES
+
+`packages` correspond to a _FILE_ containing a list of packages for example.
+In the case below,
+only `rstudio-server-bin` and `google-chrome`
+will be installed.
+`geany` and `firefox` will be ignored.
+
+[source, bash]
+----
+# ide
+rstudio-server-bin,AUR
+geany
+# browser
+firefox
+google-chrome,AUR
+----
+
+=== Default
+
+Install only packages that are not yet installed.
+
+[source, bash]
+----
+aur_install packages
+----
+
+=== Force
+
+Install all packages.
+This reinstalls packages that are already installed.
+
+[source, bash]
+----
+aur_install -f packages
+----
+
+=== Clean
+
+Clean orphan packages and package cache.
+
+[source, bash]
+----
+aur_install -c packages
+----
+
+=== Deep clean
+
+Clean orphan packages and empty package cache.
+
+[source, bash]
+----
+aur_install -d packages
+----
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+
+END_OF_DOCS
+
+###########################################################################################
+# Usage
+###########################################################################################
+
+usage () {
+	echo "Usage: $0 [OPTIONS] FILE"
+	echo "  where FILE is a text file"
+	echo "  containing AUR packages to install."
+	echo "Recognized optional arguments"
+	echo "  -f -- Force install packages."
+	echo "  -c -- Clean system packages."
+	echo "  -d -- Deep clean system packages."
+	exit 1
+}
+
+###########################################################################################
+# Options and default values
+###########################################################################################
+
+# default values
+FORCE=0
+CLEAN=0
+DEEPCLEAN=0
+
+# options
+while getopts "fcd" OPT
+do
+	case "$OPT" in
+		f) FORCE=1 ;;
+		c) CLEAN=1 ;;
+		d) DEEPCLEAN=1 ;;
+		*) usage ;;
+	esac
+done
+shift $((OPTIND-1))
+INPUT="$1"
+
+###########################################################################################
+# Main
+###########################################################################################
+
+# random names
+rand () {
+	head /dev/urandom | tr -dc A-Za-z0-9 | head -c10
+}
+
+# create temporary file names
+tmp_packages=$(rand)
+tmp_installed=$(rand)
+tmp_install=$(rand)
+
+# grep AUR packages, extract the first column, remove comments, remove blank lines, remove spaces, and return unique entries
+grep AUR "$INPUT" | \
+	awk -F "\"*,\"*" '{print $1}' | \
+	sed 's/#.*//g ; /^[[:space:]]*$/d ; s/[[:space:]]//g' | \
+	awk '!x[$0]++' >"/tmp/$tmp_packages"
+
+# update 
+sudo pacman -Syu --noconfirm
+
+# skips installed packages
+if [ "$FORCE" = 0 ]; then
+	# list of installed packages
+	pacman -Qqe > "/tmp/$tmp_installed"
+	# packages not yet installed in the system from the /tmp/$tmp_packages
+	grep -Fvxf  "/tmp/$tmp_installed" "/tmp/$tmp_packages" > "/tmp/$tmp_install"
+	rm "/tmp/$tmp_installed"
+fi	
+
+# installs all listed packages
+if [ "$FORCE" = 1 ]; then
+	cat "/tmp/$tmp_packages" > "/tmp/$tmp_install"
+fi	
+
+while IFS="" read -r p || [ -n "$p" ]
+do
+	tmp=$(rand)
+	mkdir "/tmp/$tmp"
+	cd "/tmp/$tmp" || exit
+	git clone "https://aur.archlinux.org/$p.git"
+	cd "$p" || exit
+	makepkg -sric --noconfirm
+	sudo pacman -U --noconfirm ./*.pkg.tar.xz
+	rm -r "/tmp/$tmp"
+done <"/tmp/$tmp_install"
+
+# clean
+if [ "$CLEAN" = 1 ]; then
+	# clean orphan
+	sudo pacman --noconfirm -Rns "$(pacman -Qqtd)"
+	# clean cache
+	sudo pacman --noconfirm -Sc
+fi
+
+# deep clean
+if [ "$DEEPCLEAN" = 1 ]; then
+	# clean orphan
+	sudo pacman --noconfirm -Rns "$(pacman -Qqtd)"
+	# empty cache
+	sudo pacman --noconfirm -Scc
+fi
+
+# remove temporary files
+rm "/tmp/$tmp_packages"
+rm "/tmp/$tmp_install"

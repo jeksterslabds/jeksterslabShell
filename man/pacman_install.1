@@ -1,0 +1,141 @@
+'\" t
+.\"     Title: pacman_install
+.\"    Author: Ivan Jacob Agaloos Pesigan
+.\" Generator: Asciidoctor 2.0.10
+.\"      Date: 2020-03-28
+.\"    Manual: pacman_install Manual
+.\"    Source: pacman_install 1.0.0
+.\"  Language: English
+.\"
+.TH "PACMAN_INSTALL" "1" "2020-03-28" "pacman_install 1.0.0" "pacman_install Manual"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+pacman_install \- installs official Arch Linux packages from a text file
+.SH "SYNOPSIS"
+.sp
+\fBpacman_install\fP [\fIOPTIONS\fP] \fIFILE\fP
+.SH "DESCRIPTION"
+.sp
+The \fBpacman_install(1)\fP command
+reads in a list of official Arch Linux packages
+from a text \fIFILE\fP and installs them.
+Note that packages that has the text \f(CRAUR\fP in the same line
+will be ignored.
+.SH "OPTIONS"
+.sp
+\fB\-f\fP
+.RS 4
+By default,
+if the listed packages are already installed,
+the program skips the installation.
+You can force install all listed packages by using this option.
+.RE
+.sp
+\fB\-c\fP
+.RS 4
+Cleans the system by removing orphan packages and
+packages that are no longer installed from the cache
+as well as currently unsed sync databases.
+.RE
+.sp
+\fB\-d\fP
+.RS 4
+Deep cleans the system by removing orphan packages and
+all files from the cache.
+.RE
+.SH "EXAMPLES"
+.sp
+\f(CRpackages\fP correspond to \fIFILE\fP containing a list of packages for example.
+.sp
+In the case below,
+only \f(CRgeany\fP and \f(CRfirefox\fP
+will be installed.
+\f(CRrstudio\-server\-bin\fP and \f(CRgoogle\-chrome\fP will be ignored.
+.sp
+.if n .RS 4
+.nf
+# ide
+rstudio\-server\-bin,AUR
+geany
+# browser
+firefox
+google\-chrome,AUR
+.fi
+.if n .RE
+.SS "Default"
+.sp
+Install only packages that are not yet installed in the system.
+.sp
+.if n .RS 4
+.nf
+pacman_install packages
+.fi
+.if n .RE
+.SS "Force"
+.sp
+Install all packages in the system.
+.sp
+.if n .RS 4
+.nf
+pacman_install \-f packages
+.fi
+.if n .RE
+.SS "Clean"
+.sp
+Clean orphan packages and package cache.
+.sp
+.if n .RS 4
+.nf
+pacman_install \-c packages
+.fi
+.if n .RE
+.SS "Deep clean"
+.sp
+Clean orphan packages and empty package cache.
+.sp
+.if n .RS 4
+.nf
+pacman_install \-d packages
+.fi
+.if n .RE
+.SH "EXIT STATUS"
+.sp
+\fB0\fP
+.RS 4
+Sucess.
+.RE
+.sp
+\fB1\fP
+.RS 4
+Failure.
+.RE
+.SH "AUTHOR"
+.sp
+Ivan Jacob Agaloos Pesigan <\c
+.MTO "i.j.a.pesigan\(atconnect.um.edu.mo" "" ">"
+.SH "LICENSE AND COPYRIGHT"
+.sp
+Copyright (C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+.SH "AUTHOR"
+.sp
+Ivan Jacob Agaloos Pesigan

@@ -1,0 +1,208 @@
+#!/usr/bin/env sh
+
+: <<'END_OF_DOCS'
+
+= pacman_install(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: pacman_install Manual
+:man source: pacman_install 1.0.0
+:page-layout: base
+
+== NAME
+
+pacman_install - installs official Arch Linux packages from a text file
+
+== SYNOPSIS
+
+*pacman_install* [_OPTIONS_] _FILE_
+
+== DESCRIPTION
+
+The *pacman_install(1)* command
+reads in a list of official Arch Linux packages
+from a text _FILE_ and installs them.
+Note that packages that has the text `AUR` in the same line
+will be ignored.
+
+== OPTIONS
+
+*-f*::
+  By default,
+  if the listed packages are already installed,
+  the program skips the installation.
+  You can force install all listed packages by using this option.
+  
+*-c*::
+  Cleans the system by removing orphan packages and
+  packages that are no longer installed from the cache
+  as well as currently unsed sync databases.
+  
+*-d*::
+  Deep cleans the system by removing orphan packages and
+  all files from the cache.
+
+== EXAMPLES
+
+`packages` correspond to _FILE_ containing a list of packages for example.
+
+In the case below,
+only `geany` and `firefox` 
+will be installed.
+`rstudio-server-bin` and `google-chrome` will be ignored.
+
+[source, bash]
+----
+# ide
+rstudio-server-bin,AUR
+geany
+# browser
+firefox
+google-chrome,AUR
+----
+
+=== Default
+
+Install only packages that are not yet installed in the system.
+
+[source, bash]
+----
+pacman_install packages
+----
+
+=== Force
+
+Install all packages in the system.
+
+[source, bash]
+----
+pacman_install -f packages
+----
+
+=== Clean
+
+Clean orphan packages and package cache.
+
+[source, bash]
+----
+pacman_install -c packages
+----
+
+=== Deep clean
+
+Clean orphan packages and empty package cache.
+
+[source, bash]
+----
+pacman_install -d packages
+----
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+
+END_OF_DOCS
+
+###########################################################################################
+# Usage
+###########################################################################################
+
+usage () {
+	echo "Usage: $0 [OPTIONS] FILE"
+	echo "  where FILE is a text file"
+	echo "  containing packages to install."
+	echo "Recognized optional arguments"
+	echo "  -f -- Force install packages."
+	echo "  -c -- Clean system packages."
+	echo "  -d -- Deep clean system packages."
+	exit 1
+}
+
+###########################################################################################
+# Options and default values
+###########################################################################################
+
+# default values
+FORCE=0
+CLEAN=0
+DEEPCLEAN=0
+
+# options
+while getopts "fcd" OPT
+do
+	case "$OPT" in
+		f) FORCE=1 ;;
+		c) CLEAN=1 ;;
+		d) DEEPCLEAN=1 ;;
+		*) usage ;;
+	esac
+done
+shift $((OPTIND-1))
+INPUT="$1"
+
+###########################################################################################
+# Main
+###########################################################################################
+
+# random names
+rand () {
+	head /dev/urandom | tr -dc A-Za-z0-9 | head -c10
+}
+
+# create temporary file names
+tmp_packages=$(rand)
+
+# grep non AUR packages, extract the first column, remove comments, remove blank lines, remove spaces, and return unique entries
+grep -v AUR "$INPUT" | \
+	awk -F "\"*,\"*" '{print $1}' | \
+	sed 's/#.*//g ; /^[[:space:]]*$/d ; s/[[:space:]]//g' | \
+	awk '!x[$0]++' >"/tmp/$tmp_packages"
+
+# update 
+pacman -Syu --noconfirm
+
+# skips installed packages
+if [ "$FORCE" = 0 ]; then
+	# shellcheck disable=2046
+	pacman -S --noconfirm --needed $(paste -s "/tmp/$tmp_packages")
+fi
+
+# installs all listed packages
+if [ "$FORCE" = 1 ]; then
+	# shellcheck disable=2046
+	pacman -S --noconfirm $(paste -s "/tmp/$tmp_packages")
+fi
+
+# clean
+if [ "$CLEAN" = 1 ]; then
+	# clean orphan
+	pacman --noconfirm -Rns "$(pacman -Qqtd)"
+	# clean cache
+	pacman --noconfirm -Sc
+fi
+
+# deep clean
+if [ "$DEEPCLEAN" = 1 ]; then
+	# clean orphan
+	pacman --noconfirm -Rns "$(pacman -Qqtd)"
+	# empty cache
+	pacman --noconfirm -Scc
+fi
+
+# remove temporary file
+rm "/tmp/$tmp_packages"
+

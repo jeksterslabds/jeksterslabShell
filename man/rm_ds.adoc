@@ -1,0 +1,33 @@
+
+= rm_ds(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: rm_ds Manual
+:man source: rm_ds 1.0.0
+:page-layout: base
+
+== NAME
+
+rm_ds - removes `.DS_Store`
+and `._*` files created by MacOS X.
+
+== SYNOPSIS
+
+*rm_ds*
+
+== DESCRIPTION
+
+The *rm_ds(1)* command
+removes `.DS_Store`
+and `._*` files created by MacOS X.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+
