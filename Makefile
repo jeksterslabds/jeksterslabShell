@@ -1,5 +1,7 @@
 #! /usr/bin/env sh
 
+rm -rf man/*
+
 for i in src/*;
 do
 	sh mk_man "$i"
