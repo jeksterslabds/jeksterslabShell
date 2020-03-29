@@ -1,0 +1,106 @@
+#!/usr/bin/env sh
+
+: <<'END_OF_DOCS'
+
+= gs(1)
+Ivan Jacob Agaloos Pesigan
+:doctype: manpage
+:man manual: gs Manual
+:man source: gs 1.0.0
+:page-layout: base
+
+== NAME
+
+gs - checks status of all git repositories in a given directory
+
+== SYNOPSIS
+
+*gs* [_OPTION_]
+
+== DESCRIPTION
+
+The *gs(1)* command
+recursively checks status of all git repositories in a given directory.
+Checks the $HOME directory by default.
+
+== OPTIONS
+
+*-d*::
+  By default,
+  checks the $HOME directory by default.
+  An optional directory can be provided
+  using the -d option.
+  
+== EXAMPLES
+
+=== Default
+
+Checks $HOME directory.
+
+[source, bash]
+----
+gs
+----
+
+=== Optional Directory
+
+[source, bash]
+----
+gs "$HOME/scripts"
+----
+
+== EXIT STATUS
+
+*0*::
+  Sucess.
+
+*1*::
+  Failure.
+
+== AUTHOR
+
+Ivan Jacob Agaloos Pesigan <i.j.a.pesigan@connect.um.edu.mo>
+
+== LICENSE AND COPYRIGHT
+
+Copyright \(C) 2020 Ivan Jacob Agaloos Pesigan.
+Free use of this software is granted
+under the terms of the MIT License.
+
+END_OF_DOCS
+
+###########################################################################################
+# Usage
+###########################################################################################
+
+usage () {
+	echo "Usage: $0 [OPTIONS]"
+	echo "Recognized optional arguments"
+	echo "  -d -- Directory."
+	exit 1
+}
+
+###########################################################################################
+# Options and default values
+###########################################################################################
+
+# default values
+DIR="$HOME"
+
+# options
+while getopts "d:" OPT
+do
+	case "$OPT" in
+		d) DIR="$OPTARG" ;;
+		*) usage ;;
+	esac
+done
+
+for i in `find "$DIR" -name ".git"`
+do
+	cd "$i/.."
+	echo "$(pwd)":
+	git status
+	echo
+done
+
