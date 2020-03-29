@@ -1,22 +1,22 @@
 
-= gs(1)
+= gstatus(1)
 Ivan Jacob Agaloos Pesigan
 :doctype: manpage
-:man manual: gs Manual
-:man source: gs 1.0.0
+:man manual: gstatus Manual
+:man source: gstatus 1.0.0
 :page-layout: base
 
 == NAME
 
-gs - checks status of all git repositories in a given directory
+gstatus - checks status of all git repositories in a given directory
 
 == SYNOPSIS
 
-*gs* [_OPTION_]
+*gstatus* [_OPTION_]
 
 == DESCRIPTION
 
-The *gs(1)* command
+The *gstatus(1)* command
 recursively checks status of all git repositories in a given directory.
 Checks the $HOME directory by default.
 
@@ -36,14 +36,14 @@ Checks $HOME directory.
 
 [source, bash]
 ----
-gs
+gstatus
 ----
 
 === Optional Directory
 
 [source, bash]
 ----
-gs "$HOME/scripts"
+gstatus "$HOME/scripts"
 ----
 
 == EXIT STATUS

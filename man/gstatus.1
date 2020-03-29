@@ -1,13 +1,13 @@
 '\" t
-.\"     Title: gs
+.\"     Title: gstatus
 .\"    Author: Ivan Jacob Agaloos Pesigan
 .\" Generator: Asciidoctor 2.0.10
 .\"      Date: 2020-03-29
-.\"    Manual: gs Manual
-.\"    Source: gs 1.0.0
+.\"    Manual: gstatus Manual
+.\"    Source: gstatus 1.0.0
 .\"  Language: English
 .\"
-.TH "GS" "1" "2020-03-29" "gs 1.0.0" "gs Manual"
+.TH "GSTATUS" "1" "2020-03-29" "gstatus 1.0.0" "gstatus Manual"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -28,13 +28,13 @@
 .  LINKSTYLE blue R < >
 .\}
 .SH "NAME"
-gs \- checks status of all git repositories in a given directory
+gstatus \- checks status of all git repositories in a given directory
 .SH "SYNOPSIS"
 .sp
-\fBgs\fP [\fIOPTION\fP]
+\fBgstatus\fP [\fIOPTION\fP]
 .SH "DESCRIPTION"
 .sp
-The \fBgs(1)\fP command
+The \fBgstatus(1)\fP command
 recursively checks status of all git repositories in a given directory.
 Checks the $HOME directory by default.
 .SH "OPTIONS"
@@ -53,14 +53,14 @@ Checks $HOME directory.
 .sp
 .if n .RS 4
 .nf
-gs
+gstatus
 .fi
 .if n .RE
 .SS "Optional Directory"
 .sp
 .if n .RS 4
 .nf
-gs "$HOME/scripts"
+gstatus "$HOME/scripts"
 .fi
 .if n .RE
 .SH "EXIT STATUS"
