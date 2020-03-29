@@ -1,13 +1,13 @@
 '\" t
-.\"     Title: os_check
+.\"     Title: gs
 .\"    Author: Ivan Jacob Agaloos Pesigan
 .\" Generator: Asciidoctor 2.0.10
 .\"      Date: 2020-03-29
-.\"    Manual: os_check Manual
-.\"    Source: os_check 1.0.0
+.\"    Manual: gs Manual
+.\"    Source: gs 1.0.0
 .\"  Language: English
 .\"
-.TH "OS_CHECK" "1" "2020-03-29" "os_check 1.0.0" "os_check Manual"
+.TH "GS" "1" "2020-03-29" "gs 1.0.0" "gs Manual"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -28,49 +28,41 @@
 .  LINKSTYLE blue R < >
 .\}
 .SH "NAME"
-os_check \- checks the operating system
+gs \- checks status of all git repositories in a given directory
 .SH "SYNOPSIS"
 .sp
-\fBos_check\fP
+\fBgs\fP [\fIOPTION\fP]
 .SH "DESCRIPTION"
 .sp
-The \fBos_check(1)\fP command
-checks the operating system.
+The \fBgs(1)\fP command
+recursively checks status of all git repositories in a given directory.
+Checks the $HOME directory by default.
+.SH "OPTIONS"
 .sp
-\fB1\fP
+\fB\-d\fP
 .RS 4
-GNU/Linux
+By default,
+checks the $HOME directory by default.
+An optional directory can be provided
+using the \-d option.
 .RE
+.SH "EXAMPLES"
+.SS "Default"
 .sp
-\fB2\fP
-.RS 4
-Mac OSX
-.RE
+Checks $HOME directory.
 .sp
-\fB3\fP
-.RS 4
-Cygwin
-.RE
+.if n .RS 4
+.nf
+gs
+.fi
+.if n .RE
+.SS "Optional Directory"
 .sp
-\fB4\fP
-.RS 4
-MSYS
-.RE
-.sp
-\fB5\fP
-.RS 4
-Win 32
-.RE
-.sp
-\fB6\fP
-.RS 4
-FreeBSD
-.RE
-.sp
-\fB999\fP
-.RS 4
-Unknown
-.RE
+.if n .RS 4
+.nf
+gs "$HOME/scripts"
+.fi
+.if n .RE
 .SH "EXIT STATUS"
 .sp
 \fB0\fP
