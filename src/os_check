@@ -29,15 +29,9 @@ checks the operating system.
   Mac OSX
 
 *3*::
-  Cygwin
-
-*4*::
   MSYS
 
-*5*::
-  Win 32
-
-*6*::
+*4*::
   FreeBSD
 
 *999*::
@@ -63,27 +57,20 @@ under the terms of the MIT License.
 
 END_OF_DOCS
 
-if [ "$OSTYPE" == "linux-gnu" ]; then
-	OSTYPECODE=1
-	# GNU/Linux
-elif [ "$OSTYPE" == "darwin"* ]; then
-	OSTYPECODE=2
-	# Mac OSX
-elif [ "$OSTYPE" == "cygwin" ]; then
-        OSTYPECODE=3
-	# Cygwin
-elif [ "$OSTYPE" == "msys" ]; then
-        OSTYPECODE=4
-	# MSYS
-elif [ "$OSTYPE" == "win32" ]; then
-	OSTYPECODE=5
-	# Win 32
-elif [ "$OSTYPE" == "freebsd"* ]; then
-        OSTYPECODE=6
-	# FreeBSD
-else
-	OSTYPECODE=999
-	# Unknown
-fi
-
-echo "$OSTYPECODE"
+case $(uname | tr '[:upper:]' '[:lower:]') in
+  linux*)
+    export OSTYPECODE=1
+    ;;
+  darwin*)
+    export OSTYPECODE=2
+    ;;
+  msys*)
+    export OSTYPECODE=3
+    ;;
+  freebsd*)
+    export OSTYPECODE=4
+    ;;
+  *)
+    export OSTYPECODE=999
+    ;;
+esac
