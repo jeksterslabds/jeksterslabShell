@@ -3,4 +3,4 @@ os:
   - osx
 language: shell
 script:
-  - bash -c 'shopt -s globstar nullglob; shellcheck src/*'
+  - sh 'shellcheck src/*'
