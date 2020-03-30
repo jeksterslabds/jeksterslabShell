@@ -96,11 +96,13 @@ do
 	esac
 done
 
-for i in `find "$DIR" -name ".git"`
+find "$DIR" -name ".git" > /tmp/tmp
+while IFS= read -r file
 do
-	cd "$i/.."
+	cd "$file/.." || exit
 	echo "$(pwd)":
 	git status
 	echo
-done
+done < /tmp/tmp
+rm /tmp/tmp
 
