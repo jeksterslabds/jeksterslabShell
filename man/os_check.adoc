@@ -26,15 +26,9 @@ checks the operating system.
   Mac OSX
 
 *3*::
-  Cygwin
-
-*4*::
   MSYS
 
-*5*::
-  Win 32
-
-*6*::
+*4*::
   FreeBSD
 
 *999*::
