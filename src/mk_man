@@ -72,7 +72,7 @@ usage () {
 
 NAME="$(basename -- "$1")"
 
-NUMBER="$(grep "=[[:space:]]$NAME" $1 | sed 's/.*\([1-9]\).*/\1/')"
+NUMBER="$(grep "=[[:space:]]$NAME" "$1" | sed 's/.*\([1-9]\).*/\1/')"
 
 sed -n "/: <<'END_OF_DOCS'/,/END_OF_DOCS/p" "$1" | \
  sed "/: <<'END_OF_DOCS'/d; /END_OF_DOCS/d" > "${NAME}.adoc"
