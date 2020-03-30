@@ -3,4 +3,4 @@ os:
   - osx
 language: shell
 script:
-  - sh shellcheck src/*
+  - bash -c shellcheck src/*
