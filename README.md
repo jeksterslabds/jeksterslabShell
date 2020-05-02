@@ -4,9 +4,8 @@ Ivan Jacob Agaloos Pesigan
 2020-03-30
 
 <!-- badges: start -->
-
 [![Travis build
-status](https://travis-ci.org/jeksterslabds/jeksterslabShell.svg?branch=master)](https://travis-ci.org/jeksterslabds/jeksterslabShell)
+status](https://travis-ci.com/jeksterslabds/jeksterslabShell.svg?branch=master)](https://travis-ci.com/jeksterslabds/jeksterslabShell)
 [![codecov](https://codecov.io/github/jeksterslabds/jeksterslabShell/branch/master/graphs/badge.svg)](https://codecov.io/github/jeksterslabds/jeksterslabShell)
 <!-- badges: end -->
 
